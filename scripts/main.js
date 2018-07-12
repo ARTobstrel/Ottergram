@@ -1,5 +1,5 @@
 var DETAIL_IMAGE_SELECTOR = '[data-image-role="target"]';
-var DETAIL_TITLE_SELECTOR = '[data-image-role="title"]';
+var DETAIL_TITLE_SELECTOR = '[data-image-title="title"]';
 var THUMBNAIL_LINK_SELECTOR = '[data-image-role="trigger"]';
 
 function setDetails(imageUrl, titleText) {
@@ -24,3 +24,29 @@ function titleFromThumb(thumbnail) {
 function setDetailsFromThumb(thumbnail) {
     setDetails(imageFromThumb(thumbnail), titleFromThumb(thumbnail));
 }
+
+// добавляем к нашей миниатюре прослушиватель событий
+function addThumbClickHandler(thumb) {
+    'use strict';
+    thumb.addEventListener('click', function (event) {
+        event.preventDefault();
+        setDetailsFromThumb(thumb);
+    });
+}
+
+// преобразуем в массив
+function getThumbnailsArray() {
+    'use strict';
+    var thumbnails = document.querySelectorAll(THUMBNAIL_LINK_SELECTOR);
+    var thumbnailArray = [].slice.call(thumbnails);
+    return thumbnailArray;
+}
+
+function initializeEvents() {
+    'use strict';
+    var thumbnails = getThumbnailsArray();
+    thumbnails.forEach(addThumbClickHandler);
+}
+
+initializeEvents();
+
